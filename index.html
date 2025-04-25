@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryan's 13 Birthday Photo Upload Space</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background-color: #1e90ff;
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .upload-section {
+      margin: 2rem;
+      text-align: center;
+    }
+    input[type="file"] {
+      background: white;
+      color: black;
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .gallery img {
+      width: 200px;
+      height: auto;
+      border: 3px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>Ryan's 13th Birthday Photo Upload Space</header>
+  
+  <div class="upload-section">
+    <input type="file" accept="image/*" capture="environment" id="fileInput" />
+    <button onclick="uploadImage()">Upload</button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    const gallery = document.getElementById('gallery');
+
+    function uploadImage() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      if (!file) return alert('Please select or take a photo!');
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.onclick = () => saveImage(img.src);
+        gallery.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveImage(src) {
+      const a = document.createElement('a');
+      a.href = src;
+      a.download = 'ryan-birthday-photo.jpg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+</body>
+</html>
